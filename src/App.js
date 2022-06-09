@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Router } from 'react-router-dom';
 import React, { useState} from 'react';
 
 // components
@@ -34,8 +34,8 @@ function App() {
   }
   return (
     <div className="App">
-      <UserProvider value={{ user: user }}>
-        {/* <BrowserRouter> */}
+        <BrowserRouter>
+          <UserProvider value={{ user: user }}>
           <AppNav/>
           <Routes>
             <Route exact path="/" element={ <HomePage/> } />
@@ -47,8 +47,8 @@ function App() {
             {/* <Route exact path="/CRUD" element={ <CRUDPage/> } /> */}
             <Route exact path="/login" element={renderLoginPage()} />
           </Routes>
-        {/* </BrowserRouter> */}
-      </UserProvider>
+          </UserProvider>
+        </BrowserRouter>
     </div>
   );
 }
