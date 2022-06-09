@@ -9,7 +9,7 @@ function BoardList(props) {
             return null
         }
 
-        return props.boards.map((board, index) => {
+        return props.boards.map((board) => {
             return (
                 <div><Link to={`/boards/${board.id}/`}>{ board.title }</Link></div>
             )

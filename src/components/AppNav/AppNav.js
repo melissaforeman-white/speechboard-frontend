@@ -1,10 +1,10 @@
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom"
-
+import React, { useContext } from 'react';
+import UserContext from '../../contexts/UserContext.js';
 
 function AppNav(props) {
-    // router props
-    const navigate = useNavigate()
+    let {user, logoutUser} = useContext(UserContext);
+
     return (
         <Navbar bg="light" expand="lg">
             <Container>
@@ -14,9 +14,12 @@ function AppNav(props) {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Nav.Link href="/boards/">My Boards</Nav.Link>
+                    { user && <Nav.Link href="/boards/">My Boards</Nav.Link>}
+                    { user && <Nav.Link href="/boards/new">+ Create Board</Nav.Link> }
+                    { user ? <Nav.Link onClick={() => logoutUser()}>Logout</Nav.Link> : <Nav.Link href="/login">Login</Nav.Link> }
                 </Nav>
                 </Navbar.Collapse>
+                { user && <Nav>Hello, { user.username }</Nav>}
             </Container>
         </Navbar>
     )

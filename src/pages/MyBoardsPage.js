@@ -1,21 +1,21 @@
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row';
-import Card from 'react-bootstrap/Card';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import SpeechBoardAPI from '../api/SpeechBoardAPI'
 import BoardList from  '../components/Board/BoardList'
+import UserContext from '../contexts/UserContext'
 
 function MyBoards(props) {
-    let navigate = useNavigate();
-
     //states 
     const [boards, setBoards] = useState([])
+    
+    // contexts
+    let { authTokens } = useContext(UserContext)
 
     // effects 
     useEffect(() => {
         const getBoards = async () => {
-            const data = await SpeechBoardAPI.fetchBoards()
+            console.log('token ', authTokens)
+            const token = authTokens.access
+            const data = await SpeechBoardAPI.fetchBoards(token)
             if (data) {
                 console.log('the data.boards is ', data)
                 setBoards(data)
@@ -24,23 +24,8 @@ function MyBoards(props) {
         getBoards()
     }, [])
 
-    const createBoardButton = () => {
-        return (
-            <Card border="secondary" className='m-3' style={{ width: '18rem' }} onClick={() => navigate("/boards/new")}>
-                <Card.Body>
-                    <Card.Title>Create a Board</Card.Title>
-                </Card.Body>
-            </Card>
-        )
-    }
-
     return (
         <div>
-            <Container className="boards" direction="horizontal" gap={5}>
-                <Row>
-                    { createBoardButton() }
-                </Row>
-            </Container>
             <BoardList boards={boards}/>
         </div>
     )
